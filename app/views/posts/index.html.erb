@@ -157,6 +157,9 @@
       //点数表示
       $("button").click(function(){
         var score =calculateScore();
+        $("input").each(function(i, elem) {
+          $(elem).attr("disabled", "disabled");
+        });
         $("#answerCheck").html("");
 
         var scoreHtmlText = '<h1 style="text-align: center; color: #777;">あなたは<strong style="color: #8ACD35; font-size:3em;">' + score + '</strong>点です</h1><h3 style="color: #777;">';
