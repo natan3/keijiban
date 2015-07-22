@@ -1,6 +1,6 @@
 <!-- Navigation -->
     <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
+        <div class="container" style="color: #777;">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header page-scroll">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -9,27 +9,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#page-top">Start Bootstrap</a>
+                <a class="navbar-brand" href="#page-top">トレタ用語集</a>
             </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="hidden">
-                        <a href="#page-top"></a>
-
-                    <li class="page-scroll">
-                        <a href="#portfolio">Portfolio</a>
-
-                    <li class="page-scroll">
-                        <a href="#about">About</a>
-
-                    <li class="page-scroll">
-                        <a href="#contact">Contact</a>
-
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
         </div>
         <!-- /.container-fluid -->
     </nav>
@@ -37,15 +18,20 @@
       <div class="row">
         <div class="col-lg-2 col-md-1">
         </div>
-        <div class="col-lg-8 col-md-10">
-          <h1 style="color: #8ACD35;">テスト</h1>
-          <div class="type01">
-        		<input type="checkbox" name="" id="" /><label>test</label>
-        		<input type="checkbox" name="" id="" checked disabled/>
-        		<label>test(Disabled & checked)</label>
-        		<input type="radio" name="type" id="" /><label>test</label>
-        		<input type="radio" name="type" id="" /><label>test</label>
-          </div>
+        <div class="col-lg-8 col-md-10" id="questionList">
+          <h1 style="color: #8ACD35; text-align: center;">トレタ用語検定</h1>
+          <h2 style="text-align: center; color: #777;">満点目指して頑張ろう！</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-md-2"></div>
+        <div class="col-lg-4 col-md-8" id="answerCheck" style="margin: 0 20px;">
+          <button style="margin:30px auto;" class="btn btn-warning btn-lg btn-block">アンサーチェック！</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-2 col-md-1"></div>
+        <div class="col-lg-8 col-md-10" id="showScore" style="text-align: center; color: #777;">
         </div>
       </div>
     </div>
@@ -54,18 +40,140 @@
       <%= javascript_include_tag 'custom.min' %>
       <%= javascript_include_tag 'icheck' %>
     <script>
-      $(function(){
-        $('input').each(function(){
-            var self = $(this),
-              label = self.next(),
-              label_text = label.text();
 
-            label.remove();
-            self.iCheck({
-              checkboxClass: 'icheckbox_line-red',
-              radioClass: 'iradio_line-red',
-              insert: '<div class="icheck_line-icon"></div>' + label_text
-            });
+    $(function() {
+      //問題リスト
+      var questions = [
+        {
+          ansDescription: "オリーブオイルにニンニクを加え、風味が全体に行き渡るように弱火で加熱したオイルソース",
+          misDiscription: "オリーブオイルにトウガラシを漬けた、料理に辛味を加えるオイルソース",
+          ansWord: "アーリオ・オーリオ",
+          misAnsWord: "アーリオ・ピカンテ",
+          explanation: "「aglio」はニンニク、「olio」は油の意味。オリーブオイルにニンニクを加え、風味が全体に行き渡るように弱火で加熱したオイルソースのこと。パスタ料理などに用いられる。"
+        },
+        {
+          ansDescription: "フランス語で一品料理",
+          misDiscription: "フランス語でコース料理",
+          ansWord: "アラカルト",
+          misAnsWord: "ターブルドート",
+          explanation: "レストランなどで、あらかじめ組んであるセットやコースメニューに対し、食事客がメニューブックの中から好みに応じて1品ずつ選べる一品料理のこと。フランス語"
+        }
+      ];
+
+      //シャッフル部分
+      function shuffle(array) {
+        var n = array.length, t, i;
+
+        while (n) {
+          i = Math.floor(Math.random() * n--);
+          t = array[n];
+          array[n] = array[i];
+          array[i] = t;
+        }
+
+        return array;
+      }
+
+      //問題用DOM生成
+      var randomQuestions = shuffle(questions);
+      var questionNum = 1;
+      while(randomQuestions.length > 0 || questionNum > 20){
+        var rnd1 = Math.floor( Math.random() * 2 );
+        var questionText = "";
+        if(rnd1 == 0){
+          questionText = randomQuestions[0].ansDescription + "は？";
+        }else{
+          questionText = randomQuestions[0].ansWord + "とは？";
+        }
+        var htmlText =  '<div class="row" style="margin: 0;"><div class="col-md-12"><h3 style="color: #777;">第' +
+        questionNum + '問．' + questionText + '</h3></div>';
+
+        var rnd2 = Math.floor( Math.random() * 2 );
+
+        if(rnd1 == 0){
+
+          var ansWordHtmlText = '<div class="col-md-6"><input type="radio" name="'+ questionNum +'" id="ans-' + questionNum +'" /><label>'+ randomQuestions[0].ansWord + '</label></div>';
+          var misAnsWordHtmlText = '<div class="col-md-6"><input type="radio" name="'+ questionNum +'"/><label>' + randomQuestions[0].misAnsWord + '</label></div>';
+
+          if(rnd2 == 0){
+            htmlText += ansWordHtmlText;
+            htmlText += misAnsWordHtmlText;
+          }else{
+            htmlText += misAnsWordHtmlText;
+            htmlText += ansWordHtmlText;
+          }
+        }else{
+
+          var ansDescriptionHtmlText = '<div class="col-md-6"><input type="radio" name="'+ questionNum +'" id="ans-' + questionNum +
+          '" /><label>'+ randomQuestions[0].ansDescription + '</label></div>';
+          var misDiscriptionHtmlText = '<div class="col-md-6"><input type="radio" name="'+ questionNum +'" /><label>' +
+          randomQuestions[0].misDiscription + '</label></div>';
+
+          if(rnd2 == 0){
+            htmlText += ansDescriptionHtmlText;
+            htmlText += misDiscriptionHtmlText;
+          }else{
+            htmlText += misDiscriptionHtmlText;
+            htmlText += ansDescriptionHtmlText;
+          }
+        }
+
+        htmlText += '</div>';
+
+        $("#questionList").append(htmlText);
+        randomQuestions.shift();
+        questionNum += 1;
+      }
+    });
+    // check box の css 付与
+    $(function(){
+      $('input').each(function(){
+          var self = $(this),
+            label = self.next(),
+            label_text = label.text();
+
+          label.remove();
+          self.iCheck({
+            checkboxClass: 'icheckbox_line-red',
+            radioClass: 'iradio_line-red',
+            insert: '<div class="icheck_line-icon"></div>' + label_text
           });
+        });
       });
+
+      //正誤チェック
+      function calculateScore(){
+        var score = 0;
+        var totalQuestion = 0;
+        $("[id^=ans-]").each(function(i, elem) {
+          totalQuestion += 1;
+          if($(elem).prop('checked')){
+            score += 1;
+          }
+        });
+        return score * 100 / totalQuestion;
+      }
+
+      //点数表示
+      $("button").click(function(){
+        var score =calculateScore();
+        $("#answerCheck").html("");
+
+        var scoreHtmlText = '<h1 style="text-align: center; color: #777;">あなたは<strong style="color: #8ACD35; font-size:3em;">' + score + '</strong>点です</h1><h3 style="color: #777;">';
+        var message = "";
+        if(score == 100){
+          message = "完璧です！あなたはトレタマスターです。";
+        }else if(score >= 80){
+          message = "あと少し。わからなかった問題を復習しよう。";
+        }else if (score >= 50) {
+          message = "う〜ん。用語集全体を一通り眺めてみましょう。";
+        }else if(score >= 30){
+          message = "飲食店でアルバイトでもしてみては？";
+        }else{
+          message = "もしかして、ふざけてませんか？";
+        }
+        scoreHtmlText = scoreHtmlText + message + '</h3>';
+        $("#showScore").html(scoreHtmlText);
+      });
+
     </script>

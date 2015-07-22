@@ -5,10 +5,10 @@
     position: relative;
     display: block;
     padding: 5px 15px 5px 38px;
-    font-size: 15px;
-    line-height: 20px;
+    font-size: 20px;
+    line-height: 30px;
     color: #fff;
-    background: #e56c69;
+    background: #dbf1c1;
     border: none;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -32,11 +32,11 @@
     .icheckbox_line-red.hover,
     .icheckbox_line-red.checked.hover,
     .iradio_line-red.hover {
-        background: #E98582;
+        background: #5cb106;
     }
     .icheckbox_line-red.checked,
     .iradio_line-red.checked {
-        background: #e56c69;
+        background: #8ACD35;
     }
         .icheckbox_line-red.checked .icheck_line-icon,
         .iradio_line-red.checked .icheck_line-icon {
@@ -44,7 +44,7 @@
         }
     .icheckbox_line-red.disabled,
     .iradio_line-red.disabled {
-        background: #F7D3D2;
+        background: #dbf1c1;
         cursor: default;
     }
         .icheckbox_line-red.disabled .icheck_line-icon,
@@ -53,7 +53,7 @@
         }
     .icheckbox_line-red.checked.disabled,
     .iradio_line-red.checked.disabled {
-        background: #F7D3D2;
+        background: #dbf1c1;
     }
         .icheckbox_line-red.checked.disabled .icheck_line-icon,
         .iradio_line-red.checked.disabled .icheck_line-icon {
