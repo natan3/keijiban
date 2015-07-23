@@ -45,7 +45,7 @@ group :development, :test do
 end
 
 #for heroku
-group :production do
+group :production :staging do
   gem 'pg'
   gem 'rails_12factor'
   gem 'therubyracer'
